@@ -1,0 +1,8 @@
+src-gen/
+target/
+.fingerprint
+.project*.db
+**/*.launch
+.cproject
+.gdbinit
+**/*.swp

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project>
+    <configuration name="LocalConfiguration">
+        <resource name="local">
+            <variable instancePath="HomeAutomationInstance.logic.ENO"/>
+            <variable instancePath="HomeAutomationInstance.logic.trigger_1.ENO"/>
+            <variable instancePath="HomeAutomationInstance.logic.trigger_1.CLK"/>
+            <variable instancePath="HomeAutomationInstance.logic.trigger_1.Q"/>
+            <variable instancePath="HomeAutomationInstance.logic.light_bad"/>
+            <variable instancePath="HomeAutomationInstance.logic.button_bad"/>
+        </resource>
+    </configuration>
+</project>

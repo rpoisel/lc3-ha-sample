@@ -1,0 +1,19 @@
+/**
+ * Logic will be implemented in FBD
+ */
+FUNCTION_BLOCK Logic
+	VAR_INPUT
+		signal_bad : BOOL;
+	END_VAR
+    VAR_OUTPUT
+    	light_bad : BOOL;
+    END_VAR
+    VAR
+    	trigger_1 : R_TRIG;
+    END_VAR
+
+    trigger_1(CLK := signal_bad);
+	if (trigger_1.Q) THEN
+		light_bad := NOT light_bad;
+	END_IF;
+END_FUNCTION_BLOCK

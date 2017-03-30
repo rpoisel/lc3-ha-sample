@@ -1,0 +1,31 @@
+/**
+ * Real program will be implemented in FBD
+ */
+PROGRAM HomeAutomationReal
+	VAR
+		readInputs : ReadInputs;
+		writeOutputs : WriteOutputs;
+		logic : Logic;
+	END_VAR
+
+	readInputs();
+
+	logic.signal_bad := readInputs.i2cinput_1_1;
+	logic();
+	writeOutputs.relay_1_1 := logic.light_bad;
+
+	writeOutputs();
+
+END_PROGRAM
+
+/**
+ * Too simple for being implemented in FBD
+ */
+PROGRAM HomeAutomationSimulation
+	VAR
+		logic : Logic;
+	END_VAR
+
+	logic();
+
+END_PROGRAM

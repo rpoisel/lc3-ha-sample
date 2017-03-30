@@ -1,0 +1,23 @@
+FUNCTION_BLOCK WriteOutputs
+	VAR_INPUT
+		relay_1_1 : BOOL;
+		relay_1_2 : BOOL;
+		relay_1_3 : BOOL;
+		relay_1_4 : BOOL;
+		relay_1_5 : BOOL;
+		relay_1_6 : BOOL;
+		relay_1_7 : BOOL;
+		relay_1_8 : BOOL;
+	END_VAR
+
+	VAR_OUTPUT
+		mqtt_1_1 : BOOL;
+		mqtt_1_2 : BOOL;
+		mqtt_1_3 : BOOL;
+		mqtt_1_4 : BOOL;
+	END_VAR
+
+	VAR
+	END_VAR
+
+END_FUNCTION_BLOCK

@@ -1,0 +1,21 @@
+FUNCTION_BLOCK ReadInputs
+	VAR_OUTPUT
+		i2cinput_1_1 : BOOL;
+		i2cinput_1_2 : BOOL;
+		i2cinput_1_3 : BOOL;
+		i2cinput_1_4 : BOOL;
+		i2cinput_1_5 : BOOL;
+		i2cinput_1_6 : BOOL;
+		i2cinput_1_7 : BOOL;
+		i2cinput_1_8 : BOOL;
+		
+		mqtt_1_1 : BOOL;
+		mqtt_1_2 : BOOL;
+		mqtt_1_3 : BOOL;
+		mqtt_1_4 : BOOL;
+	END_VAR
+
+	VAR
+	END_VAR
+	
+END_FUNCTION_BLOCK
