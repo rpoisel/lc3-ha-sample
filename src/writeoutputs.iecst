@@ -1,4 +1,8 @@
 FUNCTION_BLOCK WriteOutputs
+  {
+    height := 250;
+    width := 250;
+  }
 	VAR_INPUT
 		relay_1_1 : BOOL;
 		relay_1_2 : BOOL;
@@ -8,9 +12,7 @@ FUNCTION_BLOCK WriteOutputs
 		relay_1_6 : BOOL;
 		relay_1_7 : BOOL;
 		relay_1_8 : BOOL;
-	END_VAR
 
-	VAR_OUTPUT
 		mqtt_1_1 : BOOL;
 		mqtt_1_2 : BOOL;
 		mqtt_1_3 : BOOL;
@@ -18,6 +20,14 @@ FUNCTION_BLOCK WriteOutputs
 	END_VAR
 
 	VAR
+		i2c_handle : DINT := -1;
+		max7311_1_pinValues : ARRAY[0..7] OF BOOL;
 	END_VAR
 
+	IF i2c_handle < 0 THEN
+		i2c_handle := I2C_open(bus_id := 1);
+	ELSE
+		max7311_1_pinValues[0] := relay_1_1;
+		I2C_MAX7311_write(fd := i2c_handle, address := 16#20, pin_values := max7311_1_pinValues);
+	END_IF;
 END_FUNCTION_BLOCK

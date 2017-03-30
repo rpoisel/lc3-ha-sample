@@ -1,4 +1,9 @@
+
 FUNCTION_BLOCK ReadInputs
+	{
+		height := 250;
+		width := 300;
+	}
 	VAR_OUTPUT
 		i2cinput_1_1 : BOOL;
 		i2cinput_1_2 : BOOL;
@@ -8,7 +13,7 @@ FUNCTION_BLOCK ReadInputs
 		i2cinput_1_6 : BOOL;
 		i2cinput_1_7 : BOOL;
 		i2cinput_1_8 : BOOL;
-		
+
 		mqtt_1_1 : BOOL;
 		mqtt_1_2 : BOOL;
 		mqtt_1_3 : BOOL;
@@ -16,6 +21,39 @@ FUNCTION_BLOCK ReadInputs
 	END_VAR
 
 	VAR
+		i2c_handle : DINT := -1;
+		pcf8574_1_pinValues : ARRAY [0..7] OF BOOL;
+
+		mqtt_state : SINT := -1;
+		mqtt_rc : DINT;
+		mqtt_handle : DINT := -1;
+		mqtt_subscribed : BOOL;
+		mqtt_payload : ARRAY [0..1] OF BYTE;
+		mqtt_payload_len_received : DINT;
 	END_VAR
-	
+
+	IF i2c_handle < 0 THEN
+		i2c_handle := I2C_open(bus_id := 1);
+	ELSE
+		pcf8574_1_pinValues := I2C_PCF8574_read(fd := i2c_handle, address := 16#20);
+		i2cinput_1_1 := pcf8574_1_pinValues[0];
+	END_IF;
+
+	mqtt_state := MQTT_GetState(ch := mqtt_handle);
+	IF mqtt_state <> MQTT_STATE#CONNECTING AND mqtt_state <> MQTT_STATE#CONNECTED THEN
+		mqtt_handle := MQTT_Connect(address := 'tcp://127.0.0.1:1883', clientId := 'Raspberry OG');
+	END_IF;
+
+	IF mqtt_state = MQTT_STATE#CONNECTED THEN
+		IF NOT mqtt_subscribed THEN
+			MQTT_Subscribe(ch := mqtt_handle, topic := 'bad', rc => mqtt_rc);
+			mqtt_subscribed := mqtt_rc = MQTT_RC#OK;
+		END_IF;
+		IF mqtt_subscribed THEN
+			MQTT_Receive(ch := mqtt_handle, payload := REF(mqtt_payload[0]), payload_len := TO_DINT(SIZEOF(mqtt_payload)), len => mqtt_payload_len_received, rc => mqtt_rc);
+			mqtt_1_1 := mqtt_rc = MQTT_RC#OK AND mqtt_payload[0] = MQTT_VALUE#ON;
+		END_IF;
+	ELSE
+		mqtt_subscribed := FALSE;
+	END_IF;
 END_FUNCTION_BLOCK

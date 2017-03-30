@@ -1,0 +1,11 @@
+/**
+ * Too simple for being implemented in FBD
+ */
+PROGRAM HomeAutomationSimulation
+	VAR
+		logic : Logic;
+	END_VAR
+
+	logic();
+
+END_PROGRAM
