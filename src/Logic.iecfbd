@@ -11,10 +11,12 @@ FUNCTION_BLOCK Logic
   VAR_INPUT
     signal_bath : BOOL;
     signal_kitchen : BOOL;
+    fill_level : INT;
   END_VAR
   VAR_OUTPUT
     light_bath : BOOL;
     light_kitchen : BOOL;
+    valve_value : INT;
   END_VAR
 
   (*
@@ -28,6 +30,9 @@ FUNCTION_BLOCK Logic
     R_TRIG2(CLK := signal_kitchen);
     NOT(IN := light_kitchen, NOT => @C(23).NOT);
     SEL(G := R_TRIG2.Q, IN0 := light_kitchen, IN1 := @C(23).NOT, SEL => light_kitchen);
+
+    // Network 3:
+    valve_value := fill_level;
 
   *)
 
@@ -45,6 +50,8 @@ FUNCTION_BLOCK Logic
   @VF(21) : @E(light_kitchen), @R(427.6, 331.1, 140.0, 19.0);
   @VF(22) : @E(light_kitchen), @R(430.0, 360.0, 140.0, 19.0);
   @C(23) : @F(NOT), @R(580.0, 360.0, 60.0, 18.5), BOOL, @I(@N(IN), @L(9.5)), @O(@N(NOT), @R(9.5));
+  @VF(27) : @E(fill_level), @R(150.0, 470.0, 140.0, 19.0);
+  @VF(28) : @E(valve_value), @R(910.0, 460.0, 140.0, 19.0);
 
   @G(4) :
      @L(@VF(1).o, @C(3).CLK)
@@ -81,5 +88,8 @@ FUNCTION_BLOCK Logic
     ;
   @G(26) :
      @L(@VF(21).o, @C(18).IN0)
+    ;
+  @G(29) :
+     @L(@VF(27).o, @VF(28).i)
     ;
 END_FUNCTION_BLOCK

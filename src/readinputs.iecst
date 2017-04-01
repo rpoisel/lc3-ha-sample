@@ -14,6 +14,12 @@ FUNCTION_BLOCK ReadInputs
 		i2cinput_1_7 : BOOL;
 		i2cinput_1_8 : BOOL;
 
+		analog_1_1 : INT;
+		analog_1_2 : INT;
+		analog_1_3 : INT;
+		analog_1_4 : INT;
+		analog_1_5 : INT;
+
 		mqtt_1_1 : BOOL;
 		mqtt_1_2 : BOOL;
 		mqtt_1_3 : BOOL;
@@ -36,17 +42,19 @@ FUNCTION_BLOCK ReadInputs
 	IF i2c_handle < 0 THEN
 		i2c_handle := I2C_open(bus_id := 1);
 	ELSE
-		pcf8574_1_pinValues := I2C_PCF8574_read(fd := i2c_handle, address := MQTT_ADDRESSES#PCF8574_1);
+		pcf8574_1_pinValues := I2C_PCF8574_read(fd := i2c_handle, address := I2C_ADDRESSES#PCF8574_1);
 		i2cinput_1_1 := pcf8574_1_pinValues[0];
 		i2cinput_1_2 := pcf8574_1_pinValues[1];
+
+		I2C_I2HAE_read(fd := i2c_handle, address := I2C_ADDRESSES#I2HAE_1, channel := 0, value => analog_1_1);
 	END_IF;
 
+	/* MQTT */
 	mqtt_state := MQTT_GetState(ch := mqtt_handle);
 	IF mqtt_state <> MQTT_STATE#CONNECTING AND mqtt_state <> MQTT_STATE#CONNECTED THEN
 		mqtt_handle := MQTT_Connect(address := MQTT_BROKER#LOCALHOST, clientId := MQTT_CLIENTID#OG_READ);
 	END_IF;
 
-	/* MQTT */
 	IF mqtt_state = MQTT_STATE#CONNECTED THEN
 		IF NOT mqtt_subscribed THEN
 			MQTT_Subscribe(ch := mqtt_handle, topic := MQTT_TOPICS#BATH, rc => mqtt_rc);
