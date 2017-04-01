@@ -22,12 +22,28 @@ FUNCTION_BLOCK WriteOutputs
 	VAR
 		i2c_handle : DINT := -1;
 		max7311_1_pinValues : ARRAY[0..7] OF BOOL;
+		mqtt_state : MQTT_STATE := MQTT_STATE#INVALID;
+		mqtt_rc : DINT := -1;
+		mqtt_handle : DINT := -1;
+		mqtt_payload : ARRAY [0..0] OF BYTE := [ MQTT_VALUE#DUMMY ];
 	END_VAR
 
+	/* I2C */
 	IF i2c_handle < 0 THEN
 		i2c_handle := I2C_open(bus_id := 1);
 	ELSE
 		max7311_1_pinValues[0] := relay_1_1;
 		I2C_MAX7311_write(fd := i2c_handle, address := 16#20, pin_values := max7311_1_pinValues);
+	END_IF;
+
+	/* MQTT */
+	mqtt_state := MQTT_GetState(ch := mqtt_handle, rc => mqtt_rc, ENO => ENO);
+	IF mqtt_state = MQTT_STATE#CONNECTING OR mqtt_state = MQTT_STATE#CONNECTED THEN
+		mqtt_handle := MQTT_CONNECT(address := MQTT_BROKER#LOCALHOST, clientId := MQTT_CLIENTID#OG_WRITE, ENO => ENO);
+	END_IF;
+	IF ENO and mqtt_state = MQTT_STATE#CONNECTED THEN
+		IF mqtt_1_1 THEN
+			MQTT_Publish(ch := mqtt_handle, topic := MQTT_TOPICS#KITCHEN, payload := REF(mqtt_payload[0]), len := TO_DINT(SIZEOF(mqtt_payload)), rc => mqtt_rc);
+		END_IF;
 	END_IF;
 END_FUNCTION_BLOCK

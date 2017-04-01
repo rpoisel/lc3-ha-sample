@@ -1,35 +1,50 @@
 FUNCTION_BLOCK Logic
   {
     height := 50;
-    width := 200;
+    width := 300;
   }
 
   VAR
     R_TRIG1 : R_TRIG;
+    R_TRIG2 : R_TRIG;
   END_VAR
   VAR_INPUT
-    signal_bad : BOOL;
+    signal_bath : BOOL;
+    signal_kitchen : BOOL;
   END_VAR
   VAR_OUTPUT
-    light_bad : BOOL;
+    light_bath : BOOL;
+    light_kitchen : BOOL;
   END_VAR
 
   (*
 
     // Network 1:
-    R_TRIG1(CLK := signal_bad);
-    NOT(IN := light_bad, NOT => @C(10).NOT);
-    SEL(G := R_TRIG1.Q, IN0 := light_bad, IN1 := @C(10).NOT, SEL => light_bad);
+    R_TRIG1(CLK := signal_bath);
+    NOT(IN := light_bath, NOT => @C(10).NOT);
+    SEL(G := R_TRIG1.Q, IN0 := light_bath, IN1 := @C(10).NOT, SEL => light_bath);
+
+    // Network 2:
+    R_TRIG2(CLK := signal_kitchen);
+    NOT(IN := light_kitchen, NOT => @C(23).NOT);
+    SEL(G := R_TRIG2.Q, IN0 := light_kitchen, IN1 := @C(23).NOT, SEL => light_kitchen);
 
   *)
 
-  @VF(1) : @E(signal_bad), @R(145.0, 167.0, 140.0, 19.0);
-  @VF(2) : @E(light_bad), @R(892.0, 171.0, 140.0, 19.0);
+  @VF(1) : @E(signal_bath), @R(145.0, 167.0, 140.0, 19.0);
+  @VF(2) : @E(light_bath), @R(892.0, 171.0, 140.0, 19.0);
   @C(3) : @FB(R_TRIG1), @R(430.0, 170.0, 140.0, 18.5), @I(@N(CLK), @L(9.5)), @O(@N(Q), @R(9.5));
   @C(5) : @F(SEL), @R(660.0, 170.0, 120.0, 58.0), BOOL, @I(@N(G), @L(9.5)), @I(@N(IN0), @L(29.5)), @I(@N(IN1), @L(49.5)), @O(@N(SEL), @R(9.5));
-  @VF(8) : @E(light_bad), @R(430.0, 190.0, 140.0, 19.0);
-  @VF(12) : @E(light_bad), @R(430.0, 210.0, 140.0, 19.0);
+  @VF(8) : @E(light_bath), @R(430.0, 190.0, 140.0, 19.0);
+  @VF(12) : @E(light_bath), @R(430.0, 210.0, 140.0, 19.0);
   @C(10) : @F(NOT), @R(580.0, 213.0, 60.0, 18.5), BOOL, @I(@N(IN), @L(9.5)), @O(@N(NOT), @R(9.5));
+  @VF(14) : @E(light_kitchen), @R(903.8, 314.9, 140.0, 19.0);
+  @VF(15) : @E(signal_kitchen), @R(140.0, 310.0, 140.0, 19.0);
+  @C(16) : @FB(R_TRIG2), @R(430.0, 310.0, 140.0, 18.5), @I(@N(CLK), @L(9.5)), @O(@N(Q), @R(9.5));
+  @C(18) : @F(SEL), @R(660.0, 310.0, 120.0, 58.0), BOOL, @I(@N(G), @L(9.5)), @I(@N(IN0), @L(29.5)), @I(@N(IN1), @L(49.5)), @O(@N(SEL), @R(9.5));
+  @VF(21) : @E(light_kitchen), @R(427.6, 331.1, 140.0, 19.0);
+  @VF(22) : @E(light_kitchen), @R(430.0, 360.0, 140.0, 19.0);
+  @C(23) : @F(NOT), @R(580.0, 360.0, 60.0, 18.5), BOOL, @I(@N(IN), @L(9.5)), @O(@N(NOT), @R(9.5));
 
   @G(4) :
      @L(@VF(1).o, @C(3).CLK)
@@ -48,5 +63,23 @@ FUNCTION_BLOCK Logic
     ;
   @G(13) :
      @L(@C(10).NOT, @C(5).IN1)
+    ;
+  @G(17) :
+     @L(@VF(15).o, @C(16).CLK)
+    ;
+  @G(19) :
+     @L(@C(16).Q, @C(18).G)
+    ;
+  @G(20) :
+     @L(@C(18).SEL, @VF(14).i)
+    ;
+  @G(24) :
+     @L(@VF(22).o, @C(23).IN)
+    ;
+  @G(25) :
+     @L(@C(23).NOT, @C(18).IN1)
+    ;
+  @G(26) :
+     @L(@VF(21).o, @C(18).IN0)
     ;
 END_FUNCTION_BLOCK
