@@ -5,7 +5,7 @@ FUNCTION_BLOCK ReadInputs
 		width := 300;
 	}
 	VAR_OUTPUT
-		i2cinput_1_1 : BOOL;
+		digital_1_1 : BOOL;
 		i2cinput_1_2 : BOOL;
 		i2cinput_1_3 : BOOL;
 		i2cinput_1_4 : BOOL;
@@ -43,7 +43,7 @@ FUNCTION_BLOCK ReadInputs
 		i2c_handle := I2C_open(bus_id := 1);
 	ELSE
 		pcf8574_1_pinValues := I2C_PCF8574_read(fd := i2c_handle, address := I2C_ADDRESSES#PCF8574_1);
-		i2cinput_1_1 := pcf8574_1_pinValues[0];
+		digital_1_1 := pcf8574_1_pinValues[0];
 		i2cinput_1_2 := pcf8574_1_pinValues[1];
 
 		I2C_I2HAE_read(fd := i2c_handle, address := I2C_ADDRESSES#I2HAE_1, channel := 0, value => analog_1_1);
