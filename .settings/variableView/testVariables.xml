@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project>
-    <configuration name="LocalConfiguration">
-        <resource name="local">
-            <variable instancePath="HomeAutomationInstance.logic.ENO"/>
-            <variable instancePath="HomeAutomationInstance.logic.light_bad"/>
-            <variable instancePath="HomeAutomationInstance.logic.R_TRIG1.ENO"/>
-            <variable instancePath="HomeAutomationInstance.logic.R_TRIG1.CLK"/>
-            <variable instancePath="HomeAutomationInstance.logic.R_TRIG1.Q"/>
-            <variable instancePath="HomeAutomationInstance.logic.signal_bad"/>
+    <configuration name="RemoteConfiguration">
+        <resource name="remote">
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.analog_1_1"/>
+            <variable instancePath="HomeAutomationInstance.WriteOutputs1.analog_1_1"/>
         </resource>
     </configuration>
 </project>

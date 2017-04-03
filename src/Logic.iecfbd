@@ -11,12 +11,12 @@ FUNCTION_BLOCK Logic
   VAR_INPUT
     signal_bath : BOOL;
     signal_kitchen : BOOL;
-    fill_level : INT;
+    fill_level : UINT;
   END_VAR
   VAR_OUTPUT
     light_bath : BOOL;
     light_kitchen : BOOL;
-    valve_value : INT;
+    valve_value : UINT;
   END_VAR
 
   (*

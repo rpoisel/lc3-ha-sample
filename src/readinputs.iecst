@@ -6,19 +6,19 @@ FUNCTION_BLOCK ReadInputs
 	}
 	VAR_OUTPUT
 		digital_1_1 : BOOL;
-		i2cinput_1_2 : BOOL;
-		i2cinput_1_3 : BOOL;
-		i2cinput_1_4 : BOOL;
-		i2cinput_1_5 : BOOL;
-		i2cinput_1_6 : BOOL;
-		i2cinput_1_7 : BOOL;
-		i2cinput_1_8 : BOOL;
+		digital_1_2 : BOOL;
+		digital_1_3 : BOOL;
+		digital_1_4 : BOOL;
+		digital_1_5 : BOOL;
+		digital_1_6 : BOOL;
+		digital_1_7 : BOOL;
+		digital_1_8 : BOOL;
 
-		analog_1_1 : INT;
-		analog_1_2 : INT;
-		analog_1_3 : INT;
-		analog_1_4 : INT;
-		analog_1_5 : INT;
+		analog_1_1 : UINT;
+		analog_1_2 : UINT;
+		analog_1_3 : UINT;
+		analog_1_4 : UINT;
+		analog_1_5 : UINT;
 
 		mqtt_1_1 : BOOL;
 		mqtt_1_2 : BOOL;
@@ -28,7 +28,7 @@ FUNCTION_BLOCK ReadInputs
 
 	VAR
 		i2c_handle : DINT := -1;
-		pcf8574_1_pinValues : ARRAY [0..7] OF BOOL;
+		pinValues_1 : ARRAY [0..7] OF BOOL;
 
 		mqtt_state : MQTT_STATE := MQTT_STATE#INVALID;
 		mqtt_rc : DINT;
@@ -42,11 +42,17 @@ FUNCTION_BLOCK ReadInputs
 	IF i2c_handle < 0 THEN
 		i2c_handle := I2C_open(bus_id := 1);
 	ELSE
-		pcf8574_1_pinValues := I2C_PCF8574_read(fd := i2c_handle, address := I2C_ADDRESSES#PCF8574_1);
-		digital_1_1 := pcf8574_1_pinValues[0];
-		i2cinput_1_2 := pcf8574_1_pinValues[1];
+		pinValues_1 := I2C_PCF8574_read(fd := i2c_handle, address := I2C_ADDRESSES#PCF8574_INPUT_1);
+		digital_1_1 := pinValues_1[0];
+		digital_1_2 := pinValues_1[1];
 
-		I2C_I2HAE_read(fd := i2c_handle, address := I2C_ADDRESSES#I2HAE_1, channel := 0, value => analog_1_1);
+		I2C_I2HAE_read(fd := i2c_handle, address := I2C_ADDRESSES#I2HAE_1,
+			values[0] => analog_1_1,
+			values[1] => analog_1_2,
+			values[2] => analog_1_3,
+			values[3] => analog_1_4,
+			values[4] => analog_1_5
+		);
 	END_IF;
 
 	/* MQTT */
