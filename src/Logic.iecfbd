@@ -12,11 +12,19 @@ FUNCTION_BLOCK Logic
     signal_bath : BOOL;
     signal_kitchen : BOOL;
     fill_level : UINT;
+    analog_input_2 : UINT;
+    analog_input_3 : UINT;
+    analog_input_4 : UINT;
+    analog_input_5 : UINT;
   END_VAR
   VAR_OUTPUT
     light_bath : BOOL;
     light_kitchen : BOOL;
     valve_value : UINT;
+    analog_output_2 : UINT;
+    analog_output_3 : UINT;
+    analog_output_4 : UINT;
+    analog_output_5 : UINT;
   END_VAR
 
   (*
@@ -34,6 +42,18 @@ FUNCTION_BLOCK Logic
     // Network 3:
     valve_value := fill_level;
 
+    // Network 4:
+    analog_output_2 := analog_input_2;
+
+    // Network 5:
+    analog_output_3 := analog_input_3;
+
+    // Network 6:
+    analog_output_4 := analog_input_4;
+
+    // Network 7:
+    analog_output_5 := analog_input_5;
+
   *)
 
   @VF(1) : @E(signal_bath), @R(145.0, 167.0, 140.0, 19.0);
@@ -50,8 +70,16 @@ FUNCTION_BLOCK Logic
   @VF(21) : @E(light_kitchen), @R(427.6, 331.1, 140.0, 19.0);
   @VF(22) : @E(light_kitchen), @R(430.0, 360.0, 140.0, 19.0);
   @C(23) : @F(NOT), @R(580.0, 360.0, 60.0, 18.5), BOOL, @I(@N(IN), @L(9.5)), @O(@N(NOT), @R(9.5));
-  @VF(27) : @E(fill_level), @R(150.0, 470.0, 140.0, 19.0);
-  @VF(28) : @E(valve_value), @R(910.0, 460.0, 140.0, 19.0);
+  @VF(27) : @E(fill_level), @R(150.0, 550.0, 140.0, 19.0);
+  @VF(28) : @E(valve_value), @R(900.0, 550.0, 140.0, 19.0);
+  @VF(30) : @E(analog_input_2), @R(150.0, 570.0, 140.0, 19.0);
+  @VF(31) : @E(analog_input_3), @R(150.0, 590.0, 140.0, 19.0);
+  @VF(32) : @E(analog_input_4), @R(150.0, 610.0, 140.0, 19.0);
+  @VF(33) : @E(analog_input_5), @R(150.0, 630.0, 140.0, 19.0);
+  @VF(34) : @E(analog_output_2), @R(900.0, 570.0, 140.0, 19.0);
+  @VF(35) : @E(analog_output_3), @R(900.0, 590.0, 140.0, 19.0);
+  @VF(36) : @E(analog_output_4), @R(900.0, 610.0, 140.0, 19.0);
+  @VF(37) : @E(analog_output_5), @R(900.0, 630.0, 140.0, 19.0);
 
   @G(4) :
      @L(@VF(1).o, @C(3).CLK)
@@ -91,5 +119,17 @@ FUNCTION_BLOCK Logic
     ;
   @G(29) :
      @L(@VF(27).o, @VF(28).i)
+    ;
+  @G(38) :
+     @L(@VF(30).o, @VF(34).i)
+    ;
+  @G(39) :
+     @L(@VF(31).o, @VF(35).i)
+    ;
+  @G(40) :
+     @L(@VF(32).o, @VF(36).i)
+    ;
+  @G(41) :
+     @L(@VF(33).o, @VF(37).i)
     ;
 END_FUNCTION_BLOCK

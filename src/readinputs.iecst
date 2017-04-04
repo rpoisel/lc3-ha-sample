@@ -45,6 +45,12 @@ FUNCTION_BLOCK ReadInputs
 		pinValues_1 := I2C_PCF8574_read(fd := i2c_handle, address := I2C_ADDRESSES#PCF8574_INPUT_1);
 		digital_1_1 := pinValues_1[0];
 		digital_1_2 := pinValues_1[1];
+		digital_1_3 := pinValues_1[2];
+		digital_1_4 := pinValues_1[3];
+		digital_1_5 := pinValues_1[4];
+		digital_1_6 := pinValues_1[5];
+		digital_1_7 := pinValues_1[6];
+		digital_1_8 := pinValues_1[7];
 
 		I2C_I2HAE_read(fd := i2c_handle, address := I2C_ADDRESSES#I2HAE_1,
 			values[0] => analog_1_1,

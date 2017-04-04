@@ -5,7 +5,7 @@
 {
 	CHANNEL RemoteChannel
 		TCP
-			ADDRESS := 192.168.99.123;
+			ADDRESS := 192.168.2.128;
 			PORT    := 1534;
 		END_TCP
 	END_CHANNEL

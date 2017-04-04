@@ -4,6 +4,8 @@
         <resource name="remote">
             <variable instancePath="HomeAutomationInstance.ReadInputs1.analog_1_1"/>
             <variable instancePath="HomeAutomationInstance.WriteOutputs1.analog_1_1"/>
+            <variable instancePath="HomeAutomationInstance.Logic1.signal_bath"/>
+            <variable instancePath="HomeAutomationInstance.Logic1.light_bath"/>
         </resource>
     </configuration>
 </project>
