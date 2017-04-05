@@ -27,7 +27,12 @@ PROGRAM HomeAutomationHardware
   @C(5) : @FB(ReadInputs1), @R(135.1, 120.4, 300.0, 338.0), @O(@N(digital_1_1), @R(9.5)), @O(@N(digital_1_2), @R(29.5)), @O(@N(digital_1_3), @R(49.5)), @O(@N(digital_1_4), @R(69.5)), @O(@N(digital_1_5), @R(89.5)), @O(@N(digital_1_6), @R(109.5)), @O(@N(digital_1_7), @R(129.5)), @O(@N(digital_1_8), @R(149.5)), @O(@N(analog_1_1), @R(169.5)), @O(@N(analog_1_2), @R(189.5)), @O(@N(analog_1_3), @R(209.5)), @O(@N(analog_1_4), @R(229.5)), @O(@N(analog_1_5), @R(249.5)), @O(@N(mqtt_1_1), @R(269.5)), @O(@N(mqtt_1_2), @R(289.5)), @O(@N(mqtt_1_3), @R(309.5)), @O(@N(mqtt_1_4), @R(329.5));
   @C(1) : @FB(WriteOutputs1), @R(1514.6, 128.8, 250.0, 338.0), @I(@N(relay_1_1), @L(9.5)), @I(@N(relay_1_2), @L(29.5)), @I(@N(relay_1_3), @L(49.5)), @I(@N(relay_1_4), @L(69.5)), @I(@N(relay_1_5), @L(89.5)), @I(@N(relay_1_6), @L(109.5)), @I(@N(relay_1_7), @L(129.5)), @I(@N(relay_1_8), @L(149.5)), @I(@N(analog_1_1), @L(169.5)), @I(@N(analog_1_2), @L(189.5)), @I(@N(analog_1_3), @L(209.5)), @I(@N(analog_1_4), @L(229.5)), @I(@N(analog_1_5), @L(249.5)), @I(@N(mqtt_1_1), @L(269.5)), @I(@N(mqtt_1_2), @L(289.5)), @I(@N(mqtt_1_3), @L(309.5)), @I(@N(mqtt_1_4), @L(329.5));
   @C(7) : @FB(Logic1), @R(804.3, 130.2, 300.0, 138.0), @I(@N(signal_bath), @L(9.5)), @I(@N(signal_kitchen), @L(29.5)), @I(@N(fill_level), @L(49.5)), @I(@N(analog_input_2), @L(69.5)), @I(@N(analog_input_3), @L(89.5)), @I(@N(analog_input_4), @L(109.5)), @I(@N(analog_input_5), @L(129.5)), @O(@N(light_bath), @R(9.5)), @O(@N(light_kitchen), @R(29.5)), @O(@N(valve_value), @R(49.5)), @O(@N(analog_output_2), @R(69.5)), @O(@N(analog_output_3), @R(89.5)), @O(@N(analog_output_4), @R(109.5)), @O(@N(analog_output_5), @R(129.5));
-  @CP(14) : 1169.8, 413.1;
+  @OLT(28) : @R(520.0, 460.0, 80.0, 18.0), @S(@C(5).analog_1_2);
+  @OLT(29) : @R(1350.0, 490.0, 80.0, 18.0), @S(@C(10).Q);
+  @OLT(31) : @R(1340.0, 320.0, 80.0, 18.0), @S(@C(9).Q);
+  @OLT(33) : @R(1240.0, 150.0, 80.0, 18.0), @S(@C(7).light_kitchen);
+  @OLT(14) : @R(600.0, 410.0, 80.0, 18.0), @S(@C(5).analog_1_1);
+  @CP(30) : 1151.6, 393.5;
 
   @G(3) :
      @L(@C(5).digital_1_1, @C(4).IN1)
@@ -40,11 +45,6 @@ PROGRAM HomeAutomationHardware
     ;
   @G(8) :
      @L(@C(7).light_bath, @C(1).relay_1_1)
-    ;
-  @G(13) :
-     @L(@C(7).light_kitchen, @CP(14)),
-     @L(@CP(14), @C(10).CLK),
-     @L(@CP(14), @C(9).CLK)
     ;
   @G(12) :
      @L(@C(11).OR, @C(1).mqtt_1_1)
@@ -87,5 +87,10 @@ PROGRAM HomeAutomationHardware
     ;
   @G(27) :
      @L(@C(7).analog_output_5, @C(1).analog_1_5)
+    ;
+  @G(13) :
+     @L(@C(7).light_kitchen, @CP(30)),
+     @L(@CP(30), @C(10).CLK),
+     @L(@CP(30), @C(9).CLK)
     ;
 END_PROGRAM

@@ -6,6 +6,15 @@
             <variable instancePath="HomeAutomationInstance.WriteOutputs1.analog_1_1"/>
             <variable instancePath="HomeAutomationInstance.Logic1.signal_bath"/>
             <variable instancePath="HomeAutomationInstance.Logic1.light_bath"/>
+            <variable instancePath="HomeAutomationInstance.WriteOutputs1.mqtt_1_1"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_1"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_2"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_3"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_4"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_5"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_6"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_7"/>
+            <variable instancePath="HomeAutomationInstance.ReadInputs1.digital_1_8"/>
         </resource>
     </configuration>
 </project>
