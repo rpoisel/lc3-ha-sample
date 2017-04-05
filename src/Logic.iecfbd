@@ -25,6 +25,7 @@ FUNCTION_BLOCK Logic
     analog_output_3 : UINT;
     analog_output_4 : UINT;
     analog_output_5 : UINT;
+    light_alarm : BOOL;
   END_VAR
 
   (*
@@ -41,17 +42,20 @@ FUNCTION_BLOCK Logic
 
     // Network 3:
     valve_value := fill_level;
+    analog_output_2 := analog_input_2;
+    GT(IN1 := fill_level, IN2 := 400, GT => @C(43).GT);
+    GT(IN1 := analog_input_2, IN2 := 800, GT => @C(46).GT);
+    LT(IN1 := analog_input_2, IN2 := 200, LT => @C(51).LT);
+    OR(IN1 := @C(46).GT, IN2 := @C(51).LT, OR => @C(56).OR);
+    OR(IN1 := @C(43).GT, IN2 := @C(56).OR, OR => light_alarm);
 
     // Network 4:
-    analog_output_2 := analog_input_2;
-
-    // Network 5:
     analog_output_3 := analog_input_3;
 
-    // Network 6:
+    // Network 5:
     analog_output_4 := analog_input_4;
 
-    // Network 7:
+    // Network 6:
     analog_output_5 := analog_input_5;
 
   *)
@@ -70,16 +74,28 @@ FUNCTION_BLOCK Logic
   @VF(21) : @E(light_kitchen), @R(427.6, 331.1, 140.0, 19.0);
   @VF(22) : @E(light_kitchen), @R(430.0, 360.0, 140.0, 19.0);
   @C(23) : @F(NOT), @R(580.0, 360.0, 60.0, 18.5), BOOL, @I(@N(IN), @L(9.5)), @O(@N(NOT), @R(9.5));
-  @VF(27) : @E(fill_level), @R(150.0, 550.0, 140.0, 19.0);
-  @VF(28) : @E(valve_value), @R(900.0, 550.0, 140.0, 19.0);
-  @VF(30) : @E(analog_input_2), @R(150.0, 570.0, 140.0, 19.0);
-  @VF(31) : @E(analog_input_3), @R(150.0, 590.0, 140.0, 19.0);
-  @VF(32) : @E(analog_input_4), @R(150.0, 610.0, 140.0, 19.0);
-  @VF(33) : @E(analog_input_5), @R(150.0, 630.0, 140.0, 19.0);
-  @VF(34) : @E(analog_output_2), @R(900.0, 570.0, 140.0, 19.0);
-  @VF(35) : @E(analog_output_3), @R(900.0, 590.0, 140.0, 19.0);
-  @VF(36) : @E(analog_output_4), @R(900.0, 610.0, 140.0, 19.0);
-  @VF(37) : @E(analog_output_5), @R(900.0, 630.0, 140.0, 19.0);
+  @VF(27) : @E(fill_level), @R(150.0, 490.0, 140.0, 19.0);
+  @VF(28) : @E(valve_value), @R(900.0, 580.0, 140.0, 19.0);
+  @VF(30) : @E(analog_input_2), @R(147.0, 636.4, 140.0, 19.0);
+  @VF(31) : @E(analog_input_3), @R(150.0, 840.0, 140.0, 19.0);
+  @VF(32) : @E(analog_input_4), @R(150.0, 860.0, 140.0, 19.0);
+  @VF(33) : @E(analog_input_5), @R(150.0, 880.0, 140.0, 19.0);
+  @VF(34) : @E(analog_output_2), @R(900.0, 690.0, 140.0, 19.0);
+  @VF(35) : @E(analog_output_3), @R(900.0, 840.0, 140.0, 19.0);
+  @VF(36) : @E(analog_output_4), @R(900.0, 860.0, 140.0, 19.0);
+  @VF(37) : @E(analog_output_5), @R(900.0, 880.0, 140.0, 19.0);
+  @VF(42) : @E(light_alarm), @R(900.0, 490.0, 140.0, 19.0);
+  @C(43) : @F(GT), @R(690.0, 490.0, 40.0, 38.0), UINT, @I(@N(IN1), @L(9.5)), @I(@N(IN2), @L(29.5)), @O(@N(GT), @R(9.5));
+  @VF(44) : @E(400), @R(150.0, 510.0, 140.0, 19.0), UINT;
+  @C(46) : @F(GT), @R(401.0, 632.1, 40.0, 38.0), UINT, @I(@N(IN1), @L(9.5)), @I(@N(IN2), @L(29.5)), @O(@N(GT), @R(9.5));
+  @VF(47) : @E(800), @R(148.0, 655.4, 140.0, 19.0), UINT;
+  @C(49) : @F(OR), @R(820.0, 490.0, 40.0, 38.0), BOOL, @I(@N(IN1), @L(9.5)), @I(@N(IN2), @L(29.5)), @O(@N(OR), @R(9.5));
+  @C(51) : @F(LT), @R(400.0, 730.0, 40.0, 38.0), UINT, @I(@N(IN1), @L(9.5)), @I(@N(IN2), @L(29.5)), @O(@N(LT), @R(9.5));
+  @VF(54) : @E(200), @R(150.0, 750.0, 140.0, 19.0), UINT;
+  @C(56) : @F(OR), @R(540.0, 630.0, 40.0, 38.0), BOOL, @I(@N(IN1), @L(9.5)), @I(@N(IN2), @L(29.5)), @O(@N(OR), @R(9.5));
+  @CP(53) : 331.0, 645.9;
+  @CP(60) : 331.0, 696.5;
+  @CP(61) : 329.0, 499.5;
 
   @G(4) :
      @L(@VF(1).o, @C(3).CLK)
@@ -117,12 +133,6 @@ FUNCTION_BLOCK Logic
   @G(26) :
      @L(@VF(21).o, @C(18).IN0)
     ;
-  @G(29) :
-     @L(@VF(27).o, @VF(28).i)
-    ;
-  @G(38) :
-     @L(@VF(30).o, @VF(34).i)
-    ;
   @G(39) :
      @L(@VF(31).o, @VF(35).i)
     ;
@@ -131,5 +141,41 @@ FUNCTION_BLOCK Logic
     ;
   @G(41) :
      @L(@VF(33).o, @VF(37).i)
+    ;
+  @G(29) :
+     @L(@VF(27).o, @CP(61)),
+     @L(@CP(61), @C(43).IN1),
+     @L(@CP(61), @VF(28).i)
+    ;
+  @G(45) :
+     @L(@VF(44).o, @C(43).IN2)
+    ;
+  @G(38) :
+     @L(@VF(30).o, @CP(53)),
+     @L(@CP(53), @C(46).IN1),
+     @L(@CP(53), @CP(60)),
+     @L(@CP(60), @C(51).IN1),
+     @L(@CP(60), @VF(34).i)
+    ;
+  @G(48) :
+     @L(@VF(47).o, @C(46).IN2)
+    ;
+  @G(50) :
+     @L(@C(43).GT, @C(49).IN1)
+    ;
+  @G(52) :
+     @L(@C(49).OR, @VF(42).i)
+    ;
+  @G(55) :
+     @L(@VF(54).o, @C(51).IN2)
+    ;
+  @G(57) :
+     @L(@C(46).GT, @C(56).IN1)
+    ;
+  @G(58) :
+     @L(@C(51).LT, @C(56).IN2)
+    ;
+  @G(59) :
+     @L(@C(56).OR, @C(49).IN2)
     ;
 END_FUNCTION_BLOCK
