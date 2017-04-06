@@ -27,7 +27,7 @@ FUNCTION_BLOCK WriteOutputs
 
 	VAR
 		i2c_handle : DINT := -1;
-		pinValues_1 : ARRAY[0..7] OF BOOL;
+		pin_values_1 : ARRAY[0..7] OF BOOL;
 		analog_values_1 : ARRAY[0..4] OF UINT;
 		mqtt_state : MQTT_STATE := MQTT_STATE#INVALID;
 		mqtt_rc : DINT := -1;
@@ -39,15 +39,15 @@ FUNCTION_BLOCK WriteOutputs
 	IF i2c_handle < 0 THEN
 		i2c_handle := I2C_open(bus_id := 1);
 	ELSE
-		pinValues_1[0] := relay_1_1;
-		pinValues_1[1] := relay_1_2;
-		pinValues_1[2] := relay_1_3;
-		pinValues_1[3] := relay_1_4;
-		pinValues_1[4] := relay_1_5;
-		pinValues_1[5] := relay_1_6;
-		pinValues_1[6] := relay_1_7;
-		pinValues_1[7] := relay_1_8;
-		I2C_PCF8574_write(fd := i2c_handle, address := I2C_ADDRESSES#PCF8574_OUTPUT_1, pin_values := pinValues_1);
+		pin_values_1[0] := relay_1_1;
+		pin_values_1[1] := relay_1_2;
+		pin_values_1[2] := relay_1_3;
+		pin_values_1[3] := relay_1_4;
+		pin_values_1[4] := relay_1_5;
+		pin_values_1[5] := relay_1_6;
+		pin_values_1[6] := relay_1_7;
+		pin_values_1[7] := relay_1_8;
+		I2C_PCF8574_write(fd := i2c_handle, address := I2C_ADDRESSES#PCF8574_OUTPUT_1, pin_values := pin_values_1);
 
 		analog_values_1[0] := analog_1_1;
 		analog_values_1[1] := analog_1_2;
